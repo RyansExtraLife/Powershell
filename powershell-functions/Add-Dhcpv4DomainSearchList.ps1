@@ -4,8 +4,8 @@
     The Add-Dhcpv4DomainSearchList converts the provided dns zone list to hex and appends it to Option 119 on a dhcp scope.
         
     .DESCRIPTION
-	The Add-Dhcpv4DomainSearchList cmdlet converts a list of DNS zones provided in comman seperated string value into hex. 
-	The cmdlet then iterates through an array of ScopeIds on a target DHCP server and sets DHCP option 119 to the converted 
+	The Add-Dhcpv4DomainSearchList cmdlet converts a list of DNS zones provided in comman seperated string value into hex.
+	The cmdlet then iterates through an array of ScopeIds on a target DHCP server and sets DHCP option 119 to the converted
 	hex value on the provided dhcp scopes.
         
     .PARAMETER DhcpServer
@@ -13,14 +13,13 @@
 
 	.PARAMETER DhcpScopeID
 	Specifies the source dhcp scopes(s) that the cmdlet will target. 
-
-	.PARAMETER DnsSuffixSearchList 
+	
+	.PARAMETER DnsSuffixSearchList
 	Specifies the dns zones that will be converted to hex and appened to option 119 on the dhcp scope. If multiple DNS zones are 
 	passed they will need to be sperated by a single comman with no leading or trailing spaces. 
 
     .OUTPUTS
-
-        
+  
     .EXAMPLE
     Append Option 119 to scope 192.168.0.10 on dhcp server sfo1-dhcp01.
     C:\PS> Add-Dhcpv4DomainSearchList -DhcpServer sfo1-dhcp01 -DhcpScopeId 192.168.0.1 -DnsSuffixSearchList "example.lab.com,example.corp.com,example.prod.com"
@@ -28,7 +27,7 @@
     .FUNCTIONALITY
     Windows DHCP
     #>
-
+	
 	[CmdletBinding()]
 	Param(
 		[Parameter(Mandatory=$true, HelpMessage = "Specify the hostname of the target dhcp server.")]
