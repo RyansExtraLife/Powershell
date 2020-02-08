@@ -69,7 +69,7 @@
 
     Begin{
 
-        #Invoke Get-ADComputer on sourceServer parameter to set varible to ADComputer object. 
+        #Invoke Get-ADComputer on SourceServer parameter to set varible to ADComputer object. 
         try{
             Write-Verbose -Message "Invoking Get-ADComputer cmdlet on hostname: $SourceServer"
             $sourceADComputerObject = Get-ADComputer -Identity $SourceServer
@@ -78,7 +78,7 @@
             break
         }
 
-        #Invoke Get-ADComputer on destenationServer parameter to set varible to ADComputer object. 
+        #Invoke Get-ADComputer on DestenationServer parameter to set varible to ADComputer object. 
         try{
             Write-Verbose -Message "Invoking Get-ADComputer cmdlet on hostname: $DestenationServer"
             $destenationADComputerObject = Get-ADComputer -Identity $DestenationServer   
