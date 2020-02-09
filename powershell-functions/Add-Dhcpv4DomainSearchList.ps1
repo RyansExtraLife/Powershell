@@ -4,7 +4,7 @@
     The Add-Dhcpv4DomainSearchList converts the provided dns zone list to hex and appends it to Option 119 on a dhcp scope.
         
     .DESCRIPTION
-	The Add-Dhcpv4DomainSearchList cmdlet converts a list of DNS zones provided in comman seperated string value into hex.
+    The Add-Dhcpv4DomainSearchList cmdlet converts a list of DNS zones provided in comman seperated string value into hex.
 	The cmdlet then iterates through an array of ScopeIds on a target DHCP server and sets DHCP option 119 to the converted
 	hex value on the provided dhcp scopes.
         
@@ -19,7 +19,6 @@
 	passed they will need to be sperated by a single comman with no leading or trailing spaces. 
 
     .OUTPUTS
-  
   
     .EXAMPLE
     Append Option 119 to scope 192.168.0.10 on dhcp server sfo1-dhcp01.
