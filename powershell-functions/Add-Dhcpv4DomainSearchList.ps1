@@ -20,6 +20,7 @@
 
     .OUTPUTS
   
+  
     .EXAMPLE
     Append Option 119 to scope 192.168.0.10 on dhcp server sfo1-dhcp01.
     C:\PS> Add-Dhcpv4DomainSearchList -DhcpServer sfo1-dhcp01 -DhcpScopeId 192.168.0.1 -DnsSuffixSearchList "example.lab.com,example.corp.com,example.prod.com"
