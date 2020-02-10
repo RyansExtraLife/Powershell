@@ -1,12 +1,12 @@
-﻿#Function Definitions 
+﻿#Function Definitions
 
 Function Process-DHCPScopeOptions($dhcpOptions){
-    
+
     #Tests DHCP Scope Options for Null.
     if($dhcpOptions -NE $Null){
 
-        #Creates headers for DHCP Scope Options in Excel Worksheet. 
-    $lastRow = $currentExcelWorksheet.UsedRange.rows.count +2
+        #Creates headers for DHCP Scope Options in Excel Worksheet.
+        $lastRow = $currentExcelWorksheet.UsedRange.rows.count +2
         $currentExcelWorksheet.Cells.Item$lastRow,3) = "Option Name"
         $currentExcelWorksheet.Cells.Item$lastRow,3).Font.Bold= $True
         $currentExcelWorksheet.Cells.Item$lastRow,3).Font.Underline = $True
@@ -27,12 +27,12 @@ Function Process-DHCPScopeOptions($dhcpOptions){
         $currentExcelWorksheet.Cells.Item$lastRow,7).Font.Underline = $True
         $currentExcelWorksheet.Cells$lastRow,7).HorizontalALignment = -4108
 
-        #Sorts the DHCP Scopes Options numerically by OptionID. 
+        #Sorts the DHCP Scopes Options numerically by OptionID.
         $dhcpOptions = $dhcpOptions | Sort-Object -Property OptionId
 
         #Iterates through each DHCP Option in the current Scope.
         forEach($dhcpOption in $dhcpOptions){
-            
+
             #Appends DHCP Scope Option Information to Excel Worksheet.
             $lastRow = $currentExcelWorksheet.UsedRange.rows.count +1
             $currentExcelWorksheet.Cells.Item$lastRow,3) =$dhcpOption.Name
@@ -40,7 +40,7 @@ Function Process-DHCPScopeOptions($dhcpOptions){
             $currentExcelWorksheet.Cells$lastRow,4).HorizontalALignment = -4108
             $currentExcelWorksheet.Cells.Item$lastRow,5) =$dhcpOption.Type
             $currentExcelWorksheet.Cells$lastRow,5).HorizontalALignment = -4108
-            
+
             if($dchpOption.Type -EQ "IPv4Address"){
                 $multivaluedVariable  = $Null
                 $multivaluedVariable = $DHCPOption.Value
@@ -49,7 +49,7 @@ Function Process-DHCPScopeOptions($dhcpOptions){
                 $currentExcelWorksheet.Cells.Item$lastRow,7) = $MultivaluedVariable[1]
                 $currentExcelWorksheet.Cells$lastRow,7).HorizontalALignment = -4108
             }else{
-                $currentExcelWorksheet.Cells.Item$lastRow,6) =$DHCPOption.Value 
+                $currentExcelWorksheet.Cells.Item$lastRow,6) =$DHCPOption.Value
                 $currentExcelWorksheet.Cells$lastRow,6).HorizontalALignment = -4108
             }
         }
@@ -57,13 +57,14 @@ Function Process-DHCPScopeOptions($dhcpOptions){
 }
 
 Function Process-DHCPScope ($DHCPServerScopes){
-    
-    #Tests DHCPServerScope for Null.
-    if($dhcpServerScopes -NE $Null){ 
 
-        #Cycles through each DHCP Scope in the current Server. 
+    #Tests DHCPServerScope for Null.
+    if($dhcpServerScopes -NE $Null){
+
+        #Cycles through each DHCP Scope in the current Server.
         forEach($dhcpScope in $dhcpServerScopes){
-            #Creates headers for DHCP Scope in Excel Worksheet. 
+
+            #Creates headers for DHCP Scope in Excel Worksheet.
             $lastRow = $currentExcelWorksheet.UsedRange.rows.count +2
             $currentExcelWorksheet.Cells.Item($lastRow,2) = "Scope Name"
             $currentExcelWorksheet.Cells.Item$lastRow,2).Font.Bold= $True
@@ -87,7 +88,7 @@ Function Process-DHCPScope ($DHCPServerScopes){
             $currentExcelWorksheet.Cells.Item$lastRow,7).Font.Bold= $True
             $currentExcelWorksheet.Cells.Item$lastRow,7).Font.Underline = $True
             $currentExcelWorksheet.Cells$lastRow,7).HorizontalALignment = -4108
-            
+
             #Appends DHCP Scope Information to Excel Worksheet.
             $lastRow = $currentExcelWorksheet.UsedRange.rows.count +1
             $currentExcelWorksheet.Cells.Item$lastRow,2) = $DHCPScope.Name
@@ -100,7 +101,7 @@ Function Process-DHCPScope ($DHCPServerScopes){
             $currentExcelWorksheet.Cells$lastRow,6).HorizontalALignment = -4108
             $currentExcelWorksheet.Cells.Item$lastRow,7) = $DHCPScope.EndRange.IPAddressToString
             $currentExcelWorksheet.Cells$lastRow,7).HorizontalALignment = -4108
-            
+
             #Gets DHCP Options on the Scope level.
             try{
                 $dhcpOptions = Get-DhcpServerv4OptionValue -ComputerName $dhcpServer.DnsName -ScopeId $dhcpScope.ScopeId
@@ -108,16 +109,17 @@ Function Process-DHCPScope ($DHCPServerScopes){
             }catch{
                 throw "Unable to invoke Get-DhcpServerv4OptionValue on $($dhcpServer.DnsName)"
             }
-        } 
+        }
     }
 }
 
 Function Process-DHCPFailoverScope($DHCPServerFailoverScopes){
-    
+
     #Tests DHCPServerFailoverScope for Null
     If($dhcpServerFailoverScopes -NE $Null){
         ForEach($dhcpServerFailoverScope in $dhcpServerFailoverScopes){
-            #Creates headers for DHCP Scope in Excel Worksheet. 
+
+            #Creates headers for DHCP Scope in Excel Worksheet.
             $lastRow = $currentExcelWorksheet.UsedRange.rows.count +3
             $currentExcelWorksheet.Cells.Item$lastRow,2) = "Failover Scope Name"
             $currentExcelWorksheet.Cells.Item$lastRow,2).Font.Bold= $True
@@ -146,7 +148,7 @@ Function Process-DHCPFailoverScope($DHCPServerFailoverScopes){
 
 #Main Script
 
-#Collects DHCP Server Information from DOmain Controller. 
+#Collects DHCP Server Information from DOmain Controller.
 Write-Host "Collecting DHCP Server information"
 $DHCPServers = Get-DHCPServerinDC
 
@@ -157,14 +159,13 @@ $ProgressCounter = $Null
 $ExcelDocument = New-Object -ComObject Excel.Application
 $ExcelWorkbook = $ExcelDocument.Workbooks.Add()
 
-
-#Cycles through all DHCP Servers in reverse order. 
-For ($x= $TotalServers; $x -gt 0; $x--){ 
+#Cycles through all DHCP Servers in reverse order.
+For ($x= $TotalServers; $x -gt 0; $x--){
     #Declares current DHCP Server from DHCP Servers array.
     $DHCPServer = $DHCPServers[$x -1]
 
-    #Creates Progress Tracker. 
-    $ProgressCounter++ 
+    #Creates Progress Tracker.
+    $ProgressCounter++
     $PercentComplete = $ProgressCounter / $TotalServers * 100
     Write-Progress -Activity "Getting DHCP Server Information" -status "Percent Complete: $PercentComplete%" -PercentComplete $PercentComplete  -CurrentOperation "  Processeing Server: $($DHCPServer.DnsName)"
 
@@ -182,8 +183,8 @@ For ($x= $TotalServers; $x -gt 0; $x--){
     $currentExcelWorksheet.Cells.Item(1,5).Font.Bold= $True
 
     #Appends DHCP Server Information to Excel Worksheet
-$lastRow = $currentExcelWorksheet.UsedRange.rows.count
-    $currentExcelWorksheet.Cells.Item(1,4) = $DHCPServer.DnsName 
+    $lastRow = $currentExcelWorksheet.UsedRange.rows.count
+    $currentExcelWorksheet.Cells.Item(1,4) = $DHCPServer.DnsName
     $currentExcelWorksheet.Cells.Item(1,6) = $DHCPServer.IPAddress.IPAddressToString
 
     #Gets DHCP Options on the Server level.
@@ -194,31 +195,29 @@ $lastRow = $currentExcelWorksheet.UsedRange.rows.count
     #Gets Active DHCP Scopes on the Server.
     Write-Host "Collecting Server Scope Information: "$($DHCPServer.DnsName)""
     $DHCPServerScopes = $Null
-    $DHCPServerScopes = Get-DhcpServerv4Scope -ComputerName $DHCPServer.DnsName -ErrorAction:SilentlyContinue 
+    $DHCPServerScopes = Get-DhcpServerv4Scope -ComputerName $DHCPServer.DnsName -ErrorAction:SilentlyContinue
     Process-DHCPScope $DHCPServerScopes
 
     #Gets DHCPFailover Scopes on the Server.
     Write-Host "Collecting Server Failover Information: "$($DHCPServer.DnsName)""
     $DHCPServerFailoverScopes = $Null
-    $DHCPServerFailoverScopes = Get-DHCPServerv4Failover -ComputerName $DHCPServer.DnsName -ErrorAction:SilentlyContinue 
+    $DHCPServerFailoverScopes = Get-DHCPServerv4Failover -ComputerName $DHCPServer.DnsName -ErrorAction:SilentlyContinue
     Process-DHCPFailoverScope $DHCPServerFailoverScopes
 
-    #
-    $FormatWorksheet = $currentExcelWorksheet.UsedRange 
+    #Format Workseet to fit to columns.
+    $FormatWorksheet = $currentExcelWorksheet.UsedRange
     $FormatWorksheet.EntireColumn.Autofit() | Out-Null
 
     #Provides Status Update on Server
-    Write-Host "Done Processing: "$($DHCPServer.DnsName)"" 
+    Write-Host "Done Processing: "$($DHCPServer.DnsName)""
+}
 
-    
-} 
 
-  
 #Appends Title and saves current Workbook to filepath.
 $FileExtension = ".xlsx"
 $CurrentUser = $env:Username
-$FilePath="C:\Users\$CurrentUser\DHCPServerInformaion$FileExtension"
-$ExcelWorkbook.SaveAs($FilePath) 
+$FilePath="C:\Users\$CurrentUser\DomainDHCPServerInformaion$FileExtension"
+$ExcelWorkbook.SaveAs($FilePath)
 $ExcelWorkbook.Close
 $ExcelDocument.Quit()
 
